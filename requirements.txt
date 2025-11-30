@@ -1,0 +1,15 @@
+torch
+torchvision
+torchaudio
+opencv-python
+decord
+imageio
+imageio-ffmpeg
+numpy
+scipy
+matplotlib
+pandas
+tqdm
+scikit-learn
+seaborn
+numba
