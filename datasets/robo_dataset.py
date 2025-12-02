@@ -74,7 +74,7 @@ class RoboMNISTDataset(Dataset):
             data = json.load(f)
 
         module = data[0]
-        rows = module["csi"]
+        rows = module["complex_csi"]
 
         processed = []
         for row in rows:
@@ -133,7 +133,7 @@ class RoboMNISTDataset(Dataset):
 
 
 if __name__ == "__main__":
-    dataset = RoboMNISTDataset("../data/RoboMNIST")
+    dataset = RoboMNISTDataset("/home/zsh/Robominist/data")
     item = dataset[0]
     print("front video:", item["front"].shape)
     print("left video: ", item["left"].shape)
