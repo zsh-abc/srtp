@@ -112,6 +112,9 @@ def main():
             print("🔥 Saved best model!")
 
     print("\nTraining finished.")
+    print("Train samples:", len(train_set))
+    print("Val   samples:", len(val_set))
 
 
 if __name__ == "__main__":
+       main()

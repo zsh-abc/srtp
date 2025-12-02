@@ -1,4 +1,4 @@
-data_root = "data/RoboMNIST"
+data_root = "/home/zsh/Robominist/data"
 
 num_frames = 16
 batch_size = 4
