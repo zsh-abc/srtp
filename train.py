@@ -6,6 +6,7 @@ import os
 
 from datasets.robo_dataset import RoboMNISTDataset
 from models.multimodal_model import MultimodalModel
+from utils.visualization import plot_training_curves
 import config
 
 
@@ -93,6 +94,12 @@ def main():
     criterion = nn.CrossEntropyLoss()
 
     best_acc = 0
+    
+    # 用于记录训练历史
+    train_losses = []
+    train_accs = []
+    val_losses = []
+    val_accs = []
 
     for epoch in range(config.epochs):
         print(f"\n===== Epoch {epoch+1}/{config.epochs} =====")
@@ -106,12 +113,23 @@ def main():
         print(f"Train Loss={train_loss:.4f}, Train Acc={train_acc:.4f}")
         print(f"Val   Loss={val_loss:.4f}, Val   Acc={val_acc:.4f}")
 
+        # 记录历史数据
+        train_losses.append(train_loss)
+        train_accs.append(train_acc)
+        val_losses.append(val_loss)
+        val_accs.append(val_acc)
+
         if val_acc > best_acc:
             best_acc = val_acc
             torch.save(model.state_dict(), "best_model.pth")
             print("🔥 Saved best model!")
+        
+        # 每个 epoch 结束后更新可视化
+        plot_training_curves(train_losses, train_accs, val_losses, val_accs,
+                           save_path="training_curves.png")
 
     print("\nTraining finished.")
+    print(f"📊 最终训练曲线已保存至: training_curves.png")
 
 
 if __name__ == "__main__":
