@@ -78,8 +78,8 @@ def main():
 
     # Datasets
     dataset_root = config.data_root
-    train_set = RoboMNISTDataset(dataset_root, mode="train")
-    val_set = RoboMNISTDataset(dataset_root, mode="val")
+    train_set = RoboMNISTDataset(dataset_root, num_frames=config.num_frames, mode="train")
+    val_set = RoboMNISTDataset(dataset_root, num_frames=config.num_frames, mode="val")
 
     train_loader = DataLoader(train_set, batch_size=config.batch_size,
                               shuffle=True, num_workers=config.num_workers)
@@ -112,13 +112,7 @@ def main():
             print("🔥 Saved best model!")
 
     print("\nTraining finished.")
-    print("Train samples:", len(train_set))
-    print("Val   samples:", len(val_set))
 
 
 if __name__ == "__main__":
        main()
-
-
-
-print("hello world")

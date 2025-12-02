@@ -28,11 +28,24 @@ class RoboMNISTDataset(Dataset):
         self.use_amplitude = use_amplitude
         self.mode = mode
 
-        self.samples = [
-            os.path.join(root_dir, s)
-            for s in os.listdir(root_dir)
-            if os.path.isdir(os.path.join(root_dir, s))
-        ]
+        # 读取 split.json
+        split_file = os.path.join(self.root_dir, "split.json")
+        with open(split_file, "r") as f:
+            split = json.load(f)
+
+        # 根据 mode 选择对应的列表（目录名）
+        self.sample_list = split.get(mode, [])
+
+        # 只保留 split.json 中且真实存在的样本目录
+        self.samples = []
+        for s in self.sample_list:
+            folder = os.path.join(root_dir, s)
+            if os.path.isdir(folder):
+                self.samples.append(folder)
+            else:
+                print(f"[WARN] {mode} 样本在磁盘中不存在: {s}")
+
+        # 按名称排序，保证可复现
         self.samples.sort()
 
         self.transform = transforms.Compose([
@@ -42,7 +55,7 @@ class RoboMNISTDataset(Dataset):
                                  std=[0.229, 0.224, 0.225])
         ])
 
-        print(f"[INFO] Loaded {len(self.samples)} samples ({mode})")
+        print(f"[INFO] Loaded {len(self.samples)} samples ({mode}) from split.json")
 
 
     # ---------------- Video loader ---------------- #
